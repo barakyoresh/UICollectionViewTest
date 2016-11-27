@@ -42,6 +42,7 @@
           forCellWithReuseIdentifier:@"testCell"];
   self.collectionViewLayout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
   self.collectionView.backgroundColor = [UIColor blackColor];
+  self.collectionView.allowsMultipleSelection = YES;
 
   [self.view addSubview:self.collectionView];
 }
@@ -49,6 +50,15 @@
 - (UICollectionViewFlowLayout *)layoutForCollectionView {
   UICollectionViewFlowLayout *flowLayout = [[UICollectionViewFlowLayout alloc] init];
   return flowLayout;
+}
+
+- (BOOL)collectionView:(UICollectionView *)collectionView
+    shouldSelectItemAtIndexPath:(nonnull NSIndexPath *)indexPath {
+  NSArray *selectedItems = [collectionView indexPathsForSelectedItems];
+  if (selectedItems.count) {
+    [collectionView deselectItemAtIndexPath:selectedItems.firstObject animated:NO];
+  }
+  return YES;
 }
 
 #pragma mark -
